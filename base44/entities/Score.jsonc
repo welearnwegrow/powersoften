@@ -1,0 +1,43 @@
+{
+  "name": "Score",
+  "type": "object",
+  "properties": {
+    "levelId": {
+      "type": "number",
+      "description": "Which level (0-3)"
+    },
+    "levelName": {
+      "type": "string",
+      "description": "Name of the level"
+    },
+    "attempts": {
+      "type": "number",
+      "description": "Number of attempts (not counting give up)"
+    },
+    "completionTime": {
+      "type": "number",
+      "description": "Time in seconds to complete"
+    },
+    "score": {
+      "type": "number",
+      "description": "Computed score: 1000 - (attempts*200) - (time*0.5), min 0"
+    },
+    "gaveUp": {
+      "type": "boolean",
+      "description": "Whether the player gave up",
+      "default": false
+    },
+    "playerName": {
+      "type": "string",
+      "description": "Display name of the player"
+    }
+  },
+  "required": [
+    "levelId",
+    "levelName",
+    "attempts",
+    "completionTime",
+    "score",
+    "playerName"
+  ]
+}

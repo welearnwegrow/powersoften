@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 18% 91%;
+    --foreground: 30 15% 20%;
+    --card: 42 20% 96%;
+    --card-foreground: 30 15% 20%;
+    --popover: 42 20% 96%;
+    --popover-foreground: 30 15% 20%;
+    --primary: 38 75% 52%;
+    --primary-foreground: 30 15% 10%;
+    --secondary: 45 15% 83%;
+    --secondary-foreground: 30 15% 25%;
+    --muted: 45 15% 83%;
+    --muted-foreground: 30 10% 50%;
+    --accent: 175 30% 52%;
+    --accent-foreground: 30 15% 10%;
+    --destructive: 0 65% 52%;
+    --destructive-foreground: 42 20% 96%;
+    --border: 40 15% 76%;
+    --input: 40 15% 76%;
+    --ring: 38 75% 52%;
+    --radius: 0.75rem;
+
+    --cosmic-blue: 175 30% 52%;
+    --cosmic-purple: 175 30% 45%;
+    --cosmic-teal: 175 35% 55%;
+    --star-yellow: 38 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-grotesk;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, hsl(175 30% 85%) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, hsl(38 75% 88%) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-6px); }
+  30%, 70% { transform: translateX(6px); }
+}
+
+@keyframes cardFlip {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.card-flip {
+  animation: cardFlip 0.6s ease-in-out;
+}
+
+.float-anim {
+  animation: float 3s ease-in-out infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, hsl(38 75% 40%), hsl(175 30% 40%), hsl(38 75% 40%));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+.star {
+  animation: starPulse 2s ease-in-out infinite;
+}
+
+.card-glow-correct {
+  box-shadow: 0 0 20px hsl(175 30% 52% / 0.4), 0 0 40px hsl(175 30% 52% / 0.15);
+}
+
+.card-glow-incorrect {
+  box-shadow: 0 0 20px hsl(0 65% 52% / 0.4), 0 0 40px hsl(0 65% 52% / 0.15);
+}
+
+.drop-zone-active {
+  box-shadow: 0 0 0 2px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.3);
+}
+
+.progress-bar-fill {
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+  transition: width 0.5s ease;
+}
