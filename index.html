@@ -338,13 +338,6 @@
           <h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.2rem;font-weight:700;margin:0;color:#f6efe2;display:flex;align-items:center;gap:8px;">🏆 Leaderboard</h2>
           <button onClick="{{ onCloseLeaderboard }}" style="padding:6px;border-radius:8px;border:none;background:transparent;cursor:pointer;color:#aebdb6;display:flex;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
         </div>
-        <div style="padding:12px 20px;border-bottom:1px solid rgba(244,233,216,0.1);">
-          <label style="font-size:0.68rem;font-family:'DM Mono',monospace;color:#8ba098;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:5px;">Your name (saved for the leaderboard)</label>
-          <div style="display:flex;gap:8px;">
-            <input value="{{ playerName }}" onInput="{{ onNameChange }}" onKeyDown="{{ onNameKey }}" placeholder="Anonymous" style="flex:1;min-width:0;background:rgba(11,22,24,0.7);border:1px solid rgba(244,233,216,0.14);border-radius:9px;padding:8px 11px;font-size:0.85rem;color:#f3e9d8;font-family:inherit;outline:none;" />
-            <button onClick="{{ onNameSave }}" style="flex-shrink:0;background:{{ nameSavedBg }};color:#20140a;border:none;font-weight:700;font-family:'DM Mono',monospace;font-size:0.72rem;padding:0 16px;border-radius:9px;cursor:pointer;transition:background 0.2s;">{{ nameSaveLabel }}</button>
-          </div>
-        </div>
         <div style="display:flex;gap:6px;padding:12px 20px 0;flex-wrap:wrap;">
           <sc-for list="{{ lbTabs }}" as="tab" hint-placeholder-count="4"><button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.name }}</button></sc-for>
         </div>
@@ -692,12 +685,54 @@ class Component extends DCLogic {
       const parts=[];
       if(below){ const d=card.exponent-below.exponent; parts.push(d===0 ? ("about the same length as the "+this.shortName(below.name)) : (this.factor(d)+"larger than the "+this.shortName(below.name))); }
       if(above){ const d=above.exponent-card.exponent; parts.push(d===0 ? ("the same as the "+this.shortName(above.name)) : (this.factor(d)+"smaller than the "+this.shortName(above.name))); }
-      const rel = parts.length===2 ? (parts[0]+", and "+parts[1]) : (parts[0]||"the extreme edge of this scale");
+      const rel = parts.length===2 ? (parts[0]+", and "+parts[1]) : (parts[0]||"sits at the extreme edge of this scale");
       const cap=this.shortName(card.name); const Cap=cap.charAt(0).toUpperCase()+cap.slice(1);
-      return { num:String(n+1).padStart(2,"0"), text: Cap+" ("+conv+") is "+rel+"." };
+      const fact=this.FACTS[card.id];
+      const scaleSentence = "At "+conv+", it's "+rel+".";
+      const text = fact ? (Cap+" — "+fact+". "+scaleSentence) : (Cap+" ("+conv+") is "+rel+".");
+      return { num:String(n+1).padStart(2,"0"), text };
     });
     return { title:"Where scale surprised you", items };
   }
+
+  FACTS = {
+    s1:"strings would be the vibrating threads underlying every particle, if the theory holds",
+    s2:"neutrinos barely interact with matter — trillions pass through you each second unnoticed",
+    s3:"preons are a hypothetical layer that might sit even deeper than quarks",
+    s4:"quarks are never found alone — the force between them grows stronger the further apart they get",
+    s5:"a proton is built from three quarks bound by the strong force",
+    s6:"uranium's crowded nucleus is unstable, which is why it's radioactive",
+    s7:"the electron has no known size — this is the fuzzy quantum extent of where it lives",
+    s8:"this is the most likely distance of hydrogen's electron from its nucleus",
+    s9:"cesium's vibrations define the second — atomic clocks tick to this atom",
+    m1:"DNA packs two metres of code into every cell by coiling into this tiny double helix",
+    m2:"a rhinovirus is a protein shell wrapped around RNA — the cause of the common cold",
+    m3:"your skin cells are constantly shed and replaced, millions every day",
+    m4:"red blood cells have no nucleus, leaving more room to carry oxygen",
+    m5:"a single hair can support about 100 grams before snapping",
+    m6:"the ovum is the largest human cell — the only one you can almost see unaided",
+    m7:"the pineal gland makes melatonin, the hormone that sets your sleep clock",
+    m8:"the cornea is one of the few body parts with no blood supply — it takes oxygen from the air",
+    m9:"the liver is the body's chemical plant and the only organ that fully regrows",
+    h1:"a standard room's height is set so most people never have to duck",
+    h2:"an Olympic pool holds about 2.5 million litres of water",
+    h3:"the Eiffel Tower grows about 15 cm taller in summer as its iron expands",
+    h4:"the Three Gorges Dam is so massive it slightly slows Earth's rotation",
+    h5:"the LHC accelerates protons to 99.9999991% the speed of light",
+    h6:"the ISS circles the whole Earth roughly every 90 minutes",
+    h7:"the Great Wall isn't one wall but many, built across centuries",
+    h8:"submarine cables carry almost all of the world's internet traffic",
+    h9:"the far side of the Moon is the farthest any human has ever travelled",
+    a1:"the Sun holds 99.8% of all the mass in the Solar System",
+    a2:"sunlight takes about 8 minutes to reach Earth across this gap",
+    a3:"Voyager 1 has now crossed into interstellar space",
+    a4:"the Oort Cloud is a shell of icy comets wrapping the Solar System",
+    a5:"Betelgeuse is so huge it could swallow the orbit of Jupiter",
+    a6:"the Milky Way holds several hundred billion stars",
+    a7:"our Local Group is bound together by gravity across millions of light-years",
+    a8:"Laniakea means 'immense heaven' — our home supercluster of 100,000 galaxies",
+    a9:"we can only ever see this far — light from beyond hasn't had time to reach us"
+  };
 
   diffStyle(diff){
     const map={ Easy:["#5fd0c5","#06201d"], Medium:["#f0b060","#241606"], Hard:["#e0913c","#241606"], Pro:["#c4b6f7","#160f2e"] };
