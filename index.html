@@ -146,7 +146,7 @@
         <div style="max-width:620px;margin:0 auto;">
           <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;">
             <sc-for list="{{ cardViews }}" as="c" hint-placeholder-count="9">
-              <div data-card-index="{{ c.index }}" draggable="true" onClick="{{ c.onClick }}" onDragStart="{{ c.onDragStart }}" onDragOver="{{ c.onDragOver }}" onDragEnd="{{ c.onDragEnd }}" style="{{ c.wrapperStyle }}">
+              <div data-card-index="{{ c.index }}" draggable="true" onClick="{{ c.onClick }}" onPointerDown="{{ c.onPointerDown }}" onPointerMove="{{ c.onPointerMove }}" onPointerUp="{{ c.onPointerUp }}" onPointerCancel="{{ c.onPointerCancel }}" onDragStart="{{ c.onDragStart }}" onDragOver="{{ c.onDragOver }}" onDragEnd="{{ c.onDragEnd }}" style="{{ c.wrapperStyle }}">
                 <sc-if value="{{ c.flipped }}" hint-placeholder-val="{{ false }}">
                   <div style="{{ c.cardStyle }}">
                     <div style="position:absolute;inset:0;display:flex;flex-direction:column;background:linear-gradient(160deg,#173033,#0d1e1f);padding:11px 9px;">
@@ -566,6 +566,32 @@ class Component extends DCLogic {
   handleDragOver(e,i){ e.preventDefault(); if(e.dataTransfer) e.dataTransfer.dropEffect="move"; const from=this.dragIndexRef.current; if(from===null||from===i) return; this.reorder(from,i); this.dragIndexRef.current=i; this.setState({dragIndex:i}); }
   handleDragEnd(){ this.dragIndexRef.current=null; this.setState({dragIndex:null, correctIds:[]}); }
 
+  ptrDown(e,i){
+    if(this.state.allFlipped) return;
+    if(e.pointerType==="mouse") return; // native HTML5 drag handles mouse
+    this.ptr={ id:e.pointerId, startX:e.clientX, startY:e.clientY, from:i, moved:false };
+  }
+  ptrMove(e){
+    const p=this.ptr; if(!p || e.pointerId!==p.id) return;
+    if(!p.moved){
+      if(Math.hypot(e.clientX-p.startX, e.clientY-p.startY) < 8) return;
+      p.moved=true; this.dragIndexRef.current=p.from; this.setState({dragIndex:p.from, selectedIndex:null});
+    }
+    e.preventDefault();
+    const el=document.elementFromPoint(e.clientX,e.clientY);
+    const host=el && el.closest ? el.closest("[data-card-index]") : null;
+    if(!host) return;
+    const to=parseInt(host.getAttribute("data-card-index"),10);
+    const from=this.dragIndexRef.current;
+    if(to===from || isNaN(to)) return;
+    this.reorder(from,to); this.dragIndexRef.current=to; this.setState({dragIndex:to});
+  }
+  ptrUp(e){
+    const p=this.ptr; if(!p || e.pointerId!==p.id) return;
+    this.ptr=null;
+    if(p.moved){ this.dragIndexRef.current=null; this.suppressClick=true; this.setState({dragIndex:null, correctIds:[]}); }
+  }
+
   saveScore(entry){
     const s=this.loadScores(); s.push(entry); try{ localStorage.setItem("pot_scores",JSON.stringify(s)); }catch(x){}
     if(this.LB_ENDPOINT && !entry.gaveUp){
@@ -730,9 +756,10 @@ class Component extends DCLogic {
         index:i, id:card.id, name:card.name, exponent:card.exponent, coefficient:card.coefficient, metricConversion:card.metricConversion, image:card.image,
         flipped, front:!flipped,
         showHint: !!hint, hintChar: hint==="earlier"?"\u2190":"\u2192", hintLabel: hint==="earlier"?"smaller":"larger",
-        wrapperStyle:{ userSelect:"none", cursor:st.allFlipped?"default":"pointer", touchAction:"manipulation", transition:"all 0.2s", opacity:dragging?0.4:1, transform:dragging?"scale(0.95)":(selected?"translateY(-5px)":"none"), animation:shaking?"shake 0.5s cubic-bezier(.36,.07,.19,.97) both":"none" },
+        wrapperStyle:{ userSelect:"none", cursor:st.allFlipped?"default":"pointer", touchAction:st.allFlipped?"auto":"none", transition:"all 0.2s", opacity:dragging?0.4:1, transform:dragging?"scale(0.95)":(selected?"translateY(-5px)":"none"), animation:shaking?"shake 0.5s cubic-bezier(.36,.07,.19,.97) both":"none" },
         cardStyle:{ position:"relative", width:"100%", aspectRatio:"2 / 3", borderRadius:"16px", overflow:"hidden", border, boxShadow:shadow, transition:"border 0.25s,box-shadow 0.25s,transform 0.2s" },
-        onClick:()=>this.onCardTap(i),
+        onClick:()=>{ if(this.suppressClick){ this.suppressClick=false; return; } this.onCardTap(i); },
+        onPointerDown:(e)=>this.ptrDown(e,i), onPointerMove:(e)=>this.ptrMove(e), onPointerUp:(e)=>this.ptrUp(e), onPointerCancel:(e)=>this.ptrUp(e),
         onDragStart:(e)=>this.handleDragStart(e,i), onDragOver:(e)=>this.handleDragOver(e,i), onDragEnd:()=>this.handleDragEnd()
       };
     });
