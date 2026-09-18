@@ -214,7 +214,11 @@
               <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;width:27px;height:27px;border-radius:9999px;background:#f0b060;color:#20140a;font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;">2</span><p style="margin:0;font-size:0.9rem;color:#d3ddd5;line-height:1.45;">Order them <strong style="color:#f6efe2;">smallest → largest</strong>, left to right.</p></div>
               <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;width:27px;height:27px;border-radius:9999px;background:#f0b060;color:#20140a;font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;">3</span><p style="margin:0;font-size:0.9rem;color:#d3ddd5;line-height:1.45;">Hit <strong style="color:#f6efe2;">Ready</strong>. An arrow shows which way a misplaced card belongs.</p></div>
             </div>
-            <button onClick="{{ onDismissCoach }}" style="width:100%;background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;border:none;font-weight:700;padding:13px;border-radius:12px;cursor:pointer;">Got it</button>
+            <div style="text-align:left;margin-bottom:16px;">
+              <label style="font-size:0.68rem;font-family:'DM Mono',monospace;color:#8ba098;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:6px;">Your name (for the leaderboard)</label>
+              <input value="{{ coachName }}" onInput="{{ onCoachName }}" onKeyDown="{{ onCoachKey }}" placeholder="Enter your name" maxlength="24" style="width:100%;background:rgba(11,22,24,0.7);border:1px solid rgba(244,233,216,0.16);border-radius:10px;padding:11px 13px;font-size:0.95rem;color:#f3e9d8;font-family:inherit;outline:none;" />
+            </div>
+            <button onClick="{{ onDismissCoach }}" style="{{ coachBtnStyle }}">{{ coachBtnLabel }}</button>
           </div>
         </div>
       </sc-if>
@@ -497,7 +501,7 @@ class Component extends DCLogic {
     screen:"select", levelId:null, cards:[], correctIds:[], shakingIds:[],
     allFlipped:false, attempts:0, completedLevels:[], elapsed:0, finalTime:0,
     mistakeCount:0, gaveUp:false, dragIndex:null,
-    selectedIndex:null, hintDirs:{}, stars:{}, daily:false, showCoach:false, shareMsg:"",
+    selectedIndex:null, hintDirs:{}, stars:{}, daily:false, showCoach:false, coachName:"", shareMsg:"",
     showLeaderboard:false, lbLevelId:0, playerName:"",
     rankInfo:null, wrongIds:[]
   };
@@ -530,10 +534,16 @@ class Component extends DCLogic {
     this.cardsRef.current=cards;
     clearInterval(this.timer);
     this.timer=setInterval(()=>this.setState(s=>({elapsed:s.elapsed+1})),1000);
-    const showCoach=!this.loadStr("pot_coach","");
-    this.setState({ screen:"play", levelId:id, cards, correctIds:[], shakingIds:[], allFlipped:false, attempts:0, elapsed:0, finalTime:0, mistakeCount:0, gaveUp:false, dragIndex:null, selectedIndex:null, hintDirs:{}, rankInfo:null, wrongIds:[], daily:!!opts.daily, showCoach });
+    const savedName=this.loadStr("pot_name","");
+    const showCoach = !this.loadStr("pot_coach","") && !savedName.trim();
+    this.setState({ screen:"play", levelId:id, cards, correctIds:[], shakingIds:[], allFlipped:false, attempts:0, elapsed:0, finalTime:0, mistakeCount:0, gaveUp:false, dragIndex:null, selectedIndex:null, hintDirs:{}, rankInfo:null, wrongIds:[], daily:!!opts.daily, showCoach, coachName:savedName });
   }
-  dismissCoach(){ try{ localStorage.setItem("pot_coach","1"); }catch(x){} this.setState({showCoach:false}); }
+  dismissCoach(){
+    const name=(this.state.coachName||"").trim();
+    if(!name) return;
+    try{ localStorage.setItem("pot_name",name); localStorage.setItem("pot_coach","1"); }catch(x){}
+    this.setState({showCoach:false, playerName:name});
+  }
   onCardTap(i){
     if(this.state.allFlipped) return;
     const sel=this.state.selectedIndex;
@@ -779,6 +789,12 @@ class Component extends DCLogic {
       onReady:()=>this.handleReady(), onGiveUp:()=>this.handleGiveUp(),
       allFlipped:st.allFlipped, notFlipped:!st.allFlipped, isDaily:st.daily,
       showCoach:st.showCoach, onDismissCoach:()=>this.dismissCoach(), stopProp:(e)=>e.stopPropagation(),
+      coachName:st.coachName, onCoachName:(e)=>this.setState({coachName:e.target.value}),
+      onCoachKey:(e)=>{ if(e.key==="Enter"){ e.preventDefault(); this.dismissCoach(); } },
+      coachBtnLabel: (st.coachName||"").trim() ? "Start playing" : "Enter your name to start",
+      coachBtnStyle: "width:100%;border:none;font-weight:700;padding:13px;border-radius:12px;transition:all 0.2s;"+((st.coachName||"").trim()
+        ? "background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;cursor:pointer;"
+        : "background:rgba(244,233,216,0.1);color:#8ba098;cursor:not-allowed;"),
       progressStyle:"height:100%;border-radius:9999px;background:linear-gradient(90deg,#f0b060,#5fd0c5);transition:width 0.4s ease;width:"+(totalCards?Math.round(st.correctIds.length/totalCards*100):0)+"%;",
       bannerStyle:"margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:16px;padding:16px 20px;border:1px solid "+(st.gaveUp?"rgba(224,140,80,0.35)":"rgba(240,176,96,0.35)")+";background:"+(st.gaveUp?"rgba(224,140,80,0.1)":"rgba(240,176,96,0.1)")+";",
       bannerTitle: st.gaveUp?"✨ The true order, revealed":"🎉 You ordered the universe!",
