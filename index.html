@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Powers of Ten: Our Universe</title>
+<meta name="description" content="From the tiniest string to the edge of the observable cosmos — one game about the scale of everything. An educational card game about powers of ten.">
+<meta name="theme-color" content="#0b1618">
+<meta name="author" content="Jaya Ramchandani">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Powers of Ten: Our Universe">
+<meta property="og:description" content="From the tiniest string to the edge of the observable cosmos — one game about the scale of everything.">
+<meta property="og:image" content="images/universe.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Powers of Ten: Our Universe">
+<meta name="twitter:description" content="From the tiniest string to the edge of the observable cosmos — one game about the scale of everything.">
+<meta name="twitter:image" content="images/universe.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Powers of Ten">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @keyframes shake { 0%,100%{transform:translateX(0)} 10%,50%,90%{transform:translateX(-6px)} 30%,70%{transform:translateX(6px)} }
+  @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+  @keyframes starPulse { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+  @keyframes potspin { to { transform:rotate(360deg) } }
+  @keyframes floatUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+  a { color:#f0b060; text-decoration:none; }
+  a:hover { color:#f6cf8e; text-decoration:underline; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#0b1618; }
+  ::-webkit-scrollbar { width:10px;height:10px; }
+  ::-webkit-scrollbar-thumb { background:rgba(244,233,216,0.18); border-radius:8px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;overflow-x:hidden;font-family:'Outfit',system-ui,sans-serif;color:#f3e9d8;background:linear-gradient(180deg,#0b1618 0%,#0e2022 48%,#12292a 100%);">
+
+  <div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 78% at 50% 102%,rgba(240,176,96,0.24) 0%,rgba(240,176,96,0.05) 32%,transparent 56%),radial-gradient(85% 55% at 84% -6%,rgba(95,208,197,0.12) 0%,transparent 55%);"></div>
+    <div style="position:absolute;left:50%;bottom:9%;width:48vw;height:48vw;max-width:540px;max-height:540px;transform:translateX(-50%);border-radius:9999px;background:radial-gradient(circle,rgba(246,206,142,0.38) 0%,rgba(240,176,96,0.10) 46%,transparent 70%);"></div>
+    <div style="position:absolute;left:-12%;right:12%;bottom:-8%;height:32vh;border-radius:50% 50% 0 0/100% 100% 0 0;background:#0a1416;opacity:0.92;"></div>
+    <div style="position:absolute;left:20%;right:-24%;bottom:-11%;height:30vh;border-radius:50% 50% 0 0/100% 100% 0 0;background:#07100e;opacity:0.92;"></div>
+    <div style="position:absolute;left:-22%;right:34%;bottom:-6%;height:24vh;border-radius:50% 50% 0 0/100% 100% 0 0;background:#060d0c;opacity:0.9;"></div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+
+  <!-- ==================== LEVEL SELECT ==================== -->
+  <sc-if value="{{ isSelect }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;min-height:100vh;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 16px 40px;">
+        <div style="text-align:center;margin-bottom:40px;animation:floatUp 0.7s ease both;">
+          <h1 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:clamp(2.9rem,10vw,5.4rem);font-weight:800;margin:0 0 14px;letter-spacing:-0.03em;line-height:0.92;background:linear-gradient(90deg,#f0b060,#5fd0c5,#f0b060);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;">Powers of Ten</h1>
+          <p style="font-family:'DM Mono',monospace;font-size:clamp(0.85rem,2.4vw,1.05rem);color:#f0b060;font-weight:500;letter-spacing:0.42em;text-transform:uppercase;margin:0 0 0 0.42em;">Our Universe</p>
+          <p style="margin:20px auto 0;color:#b9c8c1;max-width:33rem;font-size:1.05rem;line-height:1.65;text-wrap:pretty;">From the tiniest string to the edge of the observable cosmos — one game about the scale of everything.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:18px;width:100%;max-width:600px;">
+          <sc-for list="{{ levels }}" as="lv" hint-placeholder-count="4">
+            <button onClick="{{ lv.onSelect }}" style="{{ lv.cardStyle }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;">
+                <div style="width:46px;height:46px;border-radius:13px;background:rgba(244,233,216,0.07);flex-shrink:0;color:{{ lv.iconColor }};display:flex;align-items:center;justify-content:center;">{{ lv.iconEl }}</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="{{ lv.badgeStyle }}">{{ lv.difficulty }}</span>
+                  <sc-if value="{{ lv.completed }}" hint-placeholder-val="{{ false }}">
+                    <div style="width:22px;height:22px;border-radius:9999px;background:#5fd0c5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:11px;color:#08201d;font-weight:700;">✓</span></div>
+                  </sc-if>
+                </div>
+              </div>
+              <h3 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.3rem;font-weight:700;margin:0 0 5px;color:#f6efe2;letter-spacing:-0.015em;line-height:1.1;">{{ lv.name }}</h3>
+              <p style="font-size:0.72rem;font-family:'DM Mono',monospace;margin:0 0 10px;font-weight:500;color:{{ lv.rangeColor }};">{{ lv.range }}</p>
+              <p style="font-size:0.84rem;color:#aebdb6;line-height:1.5;margin:0;text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ lv.description }}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid rgba(244,233,216,0.09);">
+                <span style="font-size:0.9rem;color:#f0b060;letter-spacing:2px;">{{ lv.starsStr }}</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;color:{{ lv.iconColor }};">{{ lv.playLabel }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="width:100%;border-top:1px solid rgba(244,233,216,0.1);padding:14px 16px;text-align:center;background:rgba(9,17,18,0.4);">
+        <p style="font-size:0.72rem;color:#8ba098;margin:0 0 4px;">Based on the AstroEDU <a href="https://astroedu.iau.org/es/activities/2203/lets-play-with-powers-of-10/" target="_blank" rel="noopener noreferrer">Powers of Ten</a> card game by <a href="https://welearnwegrow.bio/" target="_blank" rel="noopener noreferrer">Jaya Ramchandani</a> • CC BY-NC-SA 4.0</p>
+        <p style="font-size:0.72rem;margin:0;display:flex;align-items:center;justify-content:center;gap:12px;"><a href="javascript:void(0)" onClick="{{ onAbout }}">About</a></p>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ==================== PLAY ==================== -->
+  <sc-if value="{{ isPlay }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height:100vh;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:rgba(11,22,24,0.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(244,233,216,0.1);padding:12px 16px;">
+        <div style="max-width:74rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+            <button onClick="{{ onBack }}" title="Back" style="padding:8px;border-radius:10px;border:none;background:rgba(244,233,216,0.06);cursor:pointer;color:#f3e9d8;display:flex;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+            <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="{{ playDiffBadge }}">{{ playLevel.difficulty }}</span>
+                <h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1rem;font-weight:600;margin:0;color:#f6efe2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ playLevel.name }}</h2>
+              </div>
+              <p style="font-size:0.72rem;color:#aebdb6;font-family:'DM Mono',monospace;margin:0;">{{ playLevel.range }}</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="display:flex;align-items:center;gap:5px;color:#f4c988;flex-shrink:0;background:rgba(240,176,96,0.12);padding:6px 11px;border-radius:9999px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:0.82rem;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;">{{ elapsedFmt }}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width:100%;padding:14px 16px 0;">
+          <div style="width:100%;max-width:74rem;margin:0 auto;padding:8px 6px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <span style="font-size:0.72rem;color:#8ba098;font-family:'DM Mono',monospace;">10⁻³⁵ m</span>
+              <span style="font-size:0.72rem;color:#b9c8c1;font-family:'DM Mono',monospace;letter-spacing:0.16em;">← COSMIC SCALE →</span>
+              <span style="font-size:0.72rem;color:#8ba098;font-family:'DM Mono',monospace;">10²⁶ m</span>
+            </div>
+            <div style="position:relative;height:32px;width:100%;">
+              <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:5px;border-radius:9999px;background:rgba(244,233,216,0.12);"></div>
+              <sc-for list="{{ rulerTicks }}" as="t" hint-placeholder-count="10"><div style="{{ t.style }}"></div></sc-for>
+              <sc-for list="{{ rulerBands }}" as="b" hint-placeholder-count="4"><button onClick="{{ b.onJump }}" title="{{ b.title }}" style="{{ b.style }}"></button></sc-for>
+              <div style="position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:9999px;background:#f0b060;border:2px solid #0b1618;box-shadow:0 0 14px rgba(240,176,96,0.8);transition:left 0.7s ease;left:{{ markerLeft }};"></div>
+            </div>
+            <div style="position:relative;height:20px;margin-top:4px;">
+              <sc-for list="{{ rulerBands }}" as="b" hint-placeholder-count="4"><button onClick="{{ b.onJump }}" style="{{ b.labelStyle }}">{{ b.short }}</button></sc-for>
+            </div>
+          </div>
+      </div>
+
+      <div style="text-align:center;padding:14px 16px 8px;">
+        <h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:700;margin:0;color:#f6efe2;letter-spacing:-0.02em;">{{ playLevel.name }}</h2>
+        <p style="font-size:0.9rem;color:#aebdb6;margin:6px 0 0;">Order <span style="color:#84e3d9;font-family:'DM Mono',monospace;">smallest → largest</span> — tap two cards to <span style="color:#f4c988;font-family:'DM Mono',monospace;">swap</span>, or drag to reorder</p>
+        <sc-if value="{{ hasAttempts }}" hint-placeholder-val="{{ false }}"><p style="font-size:0.72rem;color:#8ba098;margin:6px 0 0;font-family:'DM Mono',monospace;">Attempts: {{ attempts }} · In position: {{ correctCount }}/{{ totalCards }}</p></sc-if>
+      </div>
+
+      <div style="flex:1;padding:0 16px 40px;">
+        <div style="max-width:620px;margin:0 auto;">
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;">
+            <sc-for list="{{ cardViews }}" as="c" hint-placeholder-count="9">
+              <div data-card-index="{{ c.index }}" draggable="true" onClick="{{ c.onClick }}" onDragStart="{{ c.onDragStart }}" onDragOver="{{ c.onDragOver }}" onDragEnd="{{ c.onDragEnd }}" style="{{ c.wrapperStyle }}">
+                <sc-if value="{{ c.flipped }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ c.cardStyle }}">
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;background:linear-gradient(160deg,#173033,#0d1e1f);padding:11px 9px;">
+                      <p style="font-size:clamp(11px,3vw,13px);line-height:1.35;text-align:center;color:#f6efe2;font-weight:600;margin:0;text-wrap:pretty;">{{ c.name }}</p>
+                      <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+                        <div style="font-family:'DM Mono',monospace;font-weight:500;color:#f4c988;line-height:1.1;font-size:clamp(1.05rem,4.4vw,1.6rem);text-align:center;">{{ c.coefficient }} × 10<sup style="font-size:0.5em;">{{ c.exponent }}</sup> m</div>
+                      </div>
+                      <div style="background:rgba(95,208,197,0.12);border:1px solid rgba(95,208,197,0.28);border-radius:9px;padding:8px 6px;">
+                        <p style="font-size:clamp(9px,2.6vw,11px);color:#84e3d9;font-family:'DM Mono',monospace;line-height:1.35;text-align:center;margin:0;">{{ c.metricConversion }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ c.front }}" hint-placeholder-val="{{ true }}">
+                  <div style="{{ c.cardStyle }}">
+                    <sc-if value="{{ c.showHint }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:6px;right:6px;z-index:3;background:#e0913c;color:#1a0d08;font-size:16px;font-weight:700;width:26px;height:26px;border-radius:9999px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 6px rgba(0,0,0,0.5);" title="belongs {{ c.hintLabel }}">{{ c.hintChar }}</div></sc-if>
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;">
+                      <div style="flex:1;position:relative;overflow:hidden;background:#0a1315;">
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#173033,#0b1618);color:#f4c988;font-size:11px;text-align:center;padding:12px;line-height:1.35;">{{ c.name }}</div>
+                        <img src="{{ c.image }}" alt="{{ c.name }}" draggable="false" loading="lazy" onError="{{ onImgError }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+                        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,15,16,0.94),rgba(8,15,16,0.1) 62%,transparent);"></div>
+                      </div>
+                      <div style="background:#0a1315;display:flex;align-items:center;justify-content:center;padding:0 9px 10px;">
+                        <p style="font-size:11px;font-weight:600;color:#f6efe2;line-height:1.25;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,0.8);margin:0;text-wrap:pretty;">{{ c.name }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ allFlipped }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ bannerStyle }}">
+              <div>
+                <p style="font-size:0.95rem;font-weight:700;color:#f6efe2;margin:0;font-family:'Bricolage Grotesque','Outfit',sans-serif;">{{ bannerTitle }}</p>
+                <p style="font-size:0.78rem;color:#aebdb6;margin:2px 0 0;">Take your time reading the cards, then view your summary.</p>
+              </div>
+              <button onClick="{{ onViewSummary }}" style="flex-shrink:0;background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;border:none;font-weight:700;padding:11px 18px;border-radius:12px;display:flex;align-items:center;gap:8px;cursor:pointer;">View Summary <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <sc-if value="{{ notFlipped }}" hint-placeholder-val="{{ true }}">
+        <div style="position:sticky;bottom:0;z-index:20;background:rgba(11,22,24,0.92);backdrop-filter:blur(12px);border-top:1px solid rgba(244,233,216,0.1);padding:11px 16px;">
+          <div style="max-width:74rem;margin:0 auto;display:flex;align-items:center;gap:12px;">
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;"><span style="font-size:0.68rem;font-family:'DM Mono',monospace;color:#8ba098;letter-spacing:0.08em;">IN POSITION</span><span style="font-size:0.68rem;font-family:'DM Mono',monospace;color:#f4c988;font-weight:500;">{{ correctCount }}/{{ totalCards }}</span></div>
+              <div style="height:6px;border-radius:9999px;background:rgba(244,233,216,0.1);overflow:hidden;"><div style="{{ progressStyle }}"></div></div>
+            </div>
+            <button onClick="{{ onGiveUp }}" style="flex-shrink:0;border:1px solid rgba(224,140,80,0.55);color:#f0a877;background:transparent;font-weight:600;padding:10px 15px;border-radius:12px;display:flex;align-items:center;gap:6px;cursor:pointer;min-height:46px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg><span style="font-size:0.8rem;">Give Up</span></button>
+            <button onClick="{{ onReady }}" style="flex-shrink:0;background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;border:none;font-weight:700;padding:10px 28px;border-radius:12px;display:flex;align-items:center;gap:8px;cursor:pointer;min-height:46px;box-shadow:0 8px 20px rgba(240,176,96,0.28);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Ready</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showCoach }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onDismissCoach }}" style="position:fixed;inset:0;z-index:70;background:rgba(6,12,13,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px;">
+          <div onClick="{{ stopProp }}" style="background:linear-gradient(160deg,#16292b,#0e2021);border:1px solid rgba(240,176,96,0.25);border-radius:20px;max-width:23rem;width:100%;padding:26px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.6);animation:floatUp 0.4s ease both;">
+            <div style="font-size:2.4rem;margin-bottom:8px;">🌌</div>
+            <h3 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.3rem;font-weight:700;margin:0 0 16px;color:#f6efe2;">How to play</h3>
+            <div style="display:flex;flex-direction:column;gap:13px;text-align:left;margin-bottom:22px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;width:27px;height:27px;border-radius:9999px;background:#f0b060;color:#20140a;font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;">1</span><p style="margin:0;font-size:0.9rem;color:#d3ddd5;line-height:1.45;">Tap two cards to <strong style="color:#f6efe2;">swap</strong> them, or <strong style="color:#f6efe2;">drag</strong> a card to reorder.</p></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;width:27px;height:27px;border-radius:9999px;background:#f0b060;color:#20140a;font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;">2</span><p style="margin:0;font-size:0.9rem;color:#d3ddd5;line-height:1.45;">Order them <strong style="color:#f6efe2;">smallest → largest</strong>, left to right.</p></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;width:27px;height:27px;border-radius:9999px;background:#f0b060;color:#20140a;font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;">3</span><p style="margin:0;font-size:0.9rem;color:#d3ddd5;line-height:1.45;">Hit <strong style="color:#f6efe2;">Ready</strong>. An arrow shows which way a misplaced card belongs.</p></div>
+            </div>
+            <button onClick="{{ onDismissCoach }}" style="width:100%;background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;border:none;font-weight:700;padding:13px;border-radius:12px;cursor:pointer;">Got it</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ==================== COMPLETE ==================== -->
+  <sc-if value="{{ isComplete }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;min-height:100vh;">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:36px 16px;">
+        <div style="text-align:center;max-width:33rem;width:100%;animation:floatUp 0.6s ease both;">
+          <div style="{{ completeBadge }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            <span style="font-family:'DM Mono',monospace;font-weight:500;font-size:0.85rem;letter-spacing:0.06em;">{{ completeLabel }}</span>
+          </div>
+          <h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:2rem;font-weight:700;margin:0 0 6px;color:#f6efe2;letter-spacing:-0.02em;">{{ playLevel.name }}</h2>
+          <div style="font-size:2rem;letter-spacing:8px;color:#f0b060;margin-bottom:16px;text-shadow:0 0 20px rgba(240,176,96,0.4);">{{ completeStarsStr }}</div>
+          <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;background:rgba(244,233,216,0.06);border:1px solid rgba(244,233,216,0.1);border-radius:12px;padding:8px 16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5fd0c5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span style="font-size:0.85rem;font-family:'DM Mono',monospace;color:#f3e9d8;">{{ attempts }} {{ attemptWord }}</span></div>
+            <sc-if value="{{ showTime }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px;background:rgba(244,233,216,0.06);border:1px solid rgba(244,233,216,0.1);border-radius:12px;padding:8px 16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0b060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:0.85rem;font-family:'DM Mono',monospace;color:#f3e9d8;">{{ finalTimeFmt }}</span></div></sc-if>
+            <sc-if value="{{ showRank }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px;background:rgba(240,176,96,0.14);border:1px solid rgba(240,176,96,0.3);border-radius:12px;padding:8px 16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0b060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg><span style="font-size:0.85rem;font-family:'DM Mono',monospace;color:#f4c988;font-weight:500;">{{ rankLabel }}</span></div></sc-if>
+          </div>
+
+          <div style="margin-bottom:24px;text-align:left;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0b060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg><span style="font-size:0.72rem;font-family:'DM Mono',monospace;font-weight:500;color:#b9c8c1;text-transform:uppercase;letter-spacing:0.12em;">{{ insightsTitle }}</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <sc-for list="{{ insights }}" as="ins" hint-placeholder-count="5">
+                <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(18,36,38,0.55);border:1px solid rgba(244,233,216,0.1);border-radius:12px;padding:11px 13px;">
+                  <span style="color:#f4c988;font-family:'DM Mono',monospace;font-size:0.75rem;font-weight:500;flex-shrink:0;margin-top:1px;">{{ ins.num }}</span>
+                  <p style="font-size:0.85rem;color:#dbe4dc;line-height:1.45;margin:0;text-wrap:pretty;">{{ ins.text }}</p>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ showScaleLine }}" hint-placeholder-val="{{ false }}"><p style="font-size:0.85rem;color:#aebdb6;margin:0 0 18px;line-height:1.5;">{{ scaleLine }}</p></sc-if>
+
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ onNext }}" style="width:100%;background:linear-gradient(135deg,#f0b060,#e0913c);color:#20140a;border:none;font-weight:700;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;box-shadow:0 8px 20px rgba(240,176,96,0.25);">{{ nextLabel }} <span style="{{ nextBadge }}">{{ nextDiff }}</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+            </sc-if>
+            <div style="display:flex;gap:11px;">
+              <button onClick="{{ onReplay }}" style="flex:1;border:1px solid rgba(244,233,216,0.16);background:rgba(244,233,216,0.04);color:#f3e9d8;font-weight:500;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Play Again</button>
+              <button onClick="{{ onHome }}" style="flex:1;border:1px solid rgba(244,233,216,0.16);background:rgba(244,233,216,0.04);color:#f3e9d8;font-weight:500;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+            </div>
+            <button onClick="{{ onOpenLeaderboard }}" style="width:100%;background:transparent;border:none;color:#f4c988;font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:500;padding:6px;cursor:pointer;">🏆 View Leaderboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ==================== ABOUT ==================== -->
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;min-height:100vh;">
+      <div style="flex:1;max-width:48rem;margin:0 auto;width:100%;padding:40px 16px;">
+        <a href="javascript:void(0)" onClick="{{ onHome }}" style="display:inline-flex;align-items:center;gap:8px;color:#aebdb6;font-size:0.875rem;margin-bottom:32px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Back to game</a>
+        <h1 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:2.6rem;font-weight:800;margin:0 0 8px;letter-spacing:-0.03em;background:linear-gradient(90deg,#f0b060,#5fd0c5,#f0b060);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;">About</h1>
+        <p style="color:#aebdb6;margin:0 0 40px;font-family:'DM Mono',monospace;font-size:0.85rem;">Powers of Ten: Our Universe</p>
+
+        <section style="margin-bottom:36px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f0b060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.3rem;font-weight:700;margin:0;color:#f6efe2;">About the Game</h2></div>
+          <div style="background:rgba(18,36,38,0.55);border:1px solid rgba(244,233,216,0.1);border-radius:14px;padding:20px;font-size:0.9rem;color:#aebdb6;line-height:1.65;">
+            <p style="margin:0 0 12px;"><strong style="color:#f6efe2;">Powers of Ten: Our Universe</strong> is an educational card-sorting game that takes players on a journey from the smallest known lengths in physics to the scale of the observable universe.</p>
+            <p style="margin:0 0 12px;">This digital version is based on the original physical card game created by <strong style="color:#f6efe2;">Jaya Ramchandani</strong>, published on AstroEDU under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+            <p style="margin:0 0 12px;">The game helps players learn about powers of ten, orders of magnitude, and the incredible scale of our cosmos — from the Planck length (10⁻³⁵ m) to the co-moving diameter of the observable universe (10²⁶ m).</p>
+            <a href="https://astroedu.iau.org/es/activities/2203/lets-play-with-powers-of-10/" target="_blank" rel="noopener noreferrer">View original activity on AstroEDU →</a>
+          </div>
+        </section>
+
+        <section style="margin-bottom:36px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5fd0c5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.3rem;font-weight:700;margin:0;color:#f6efe2;">Acknowledgements</h2></div>
+          <div style="background:rgba(18,36,38,0.55);border:1px solid rgba(244,233,216,0.1);border-radius:14px;padding:20px;font-size:0.9rem;line-height:1.65;">
+            <p style="color:#aebdb6;margin:0 0 12px;">This game has been created by <strong style="color:#f6efe2;">Jaya Ramchandani</strong>.</p>
+            <div style="border-left:2px solid rgba(95,208,197,0.4);padding-left:16px;margin-bottom:12px;">
+              <p style="color:#f6efe2;font-weight:600;display:flex;align-items:center;gap:8px;margin:0 0 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5fd0c5" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Special Thanks</p>
+              <p style="color:#aebdb6;margin:0;"><strong style="color:#f4c988;">Chirag Ramchandani</strong>, Game Designer — for invaluable input on the design and gamification of this experience.</p>
+            </div>
+            <div style="color:#aebdb6;display:flex;flex-direction:column;gap:4px;">
+              <p style="margin:0;"><strong style="color:#f6efe2;">Shermeen Lee</strong>, Secondary Physics Teacher, Yew Chung International School, Shanghai — for input on the content.</p>
+              <p style="margin:0;"><strong style="color:#f6efe2;">Abrar Burk</strong> — for design of the first iteration.</p>
+              <p style="margin:0;">Authors of the Wikipedia article <em>'Orders of magnitude (length)'</em> — for inspiration and information.</p>
+              <p style="margin:0;">The many students, educators, friends and family for their valuable inputs leading to several iterations.</p>
+            </div>
+            <p style="font-size:0.75rem;color:#8ba098;padding-top:12px;margin:12px 0 0;border-top:1px solid rgba(244,233,216,0.1);">Contact: <a href="https://welearnwegrow.bio/" target="_blank" rel="noopener noreferrer">welearnwegrow.bio</a></p>
+          </div>
+        </section>
+
+        <section style="margin-bottom:36px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f0b060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.3rem;font-weight:700;margin:0;color:#f6efe2;">Image Credits</h2></div>
+          <p style="font-size:0.75rem;color:#8ba098;margin:0 0 16px;">To the best of our knowledge, images used belong to the public domain or have a creative commons non-commercial license. Thank you creators!</p>
+          <div style="background:rgba(18,36,38,0.55);border:1px solid rgba(244,233,216,0.1);border-radius:14px;overflow:hidden;">
+            <sc-for list="{{ credits }}" as="cr" hint-placeholder-count="6">
+              <div style="{{ cr.style }}">
+                <p style="font-size:0.75rem;font-weight:600;color:#f6efe2;line-height:1.3;margin:0 0 2px;">{{ cr.title }}</p>
+                <p style="font-size:0.75rem;color:#8ba098;line-height:1.3;margin:0;">{{ cr.credit }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="margin-bottom:16px;">
+          <div style="background:rgba(240,176,96,0.06);border:1px solid rgba(240,176,96,0.2);border-radius:14px;padding:20px;font-size:0.75rem;color:#aebdb6;text-align:center;line-height:1.65;">
+            <p style="margin:0;"><em>Powers of Ten: Our Universe</em> has been created by Jaya Ramchandani and is licensed under a <strong style="color:#f6efe2;">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</strong>.</p>
+            <p style="margin:8px 0 0;">We welcome co-branding if you would like to produce copies for commercial use.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ==================== LEADERBOARD MODAL ==================== -->
+  <sc-if value="{{ showLeaderboard }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCloseLeaderboard }}" style="position:fixed;inset:0;z-index:60;background:rgba(6,12,13,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;">
+      <div onClick="{{ stopProp }}" style="background:linear-gradient(160deg,#16292b,#0e2021);border:1px solid rgba(244,233,216,0.12);border-radius:18px;width:100%;max-width:32rem;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,0.6);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(244,233,216,0.1);">
+          <h2 style="font-family:'Bricolage Grotesque','Outfit',sans-serif;font-size:1.2rem;font-weight:700;margin:0;color:#f6efe2;display:flex;align-items:center;gap:8px;">🏆 Leaderboard</h2>
+          <button onClick="{{ onCloseLeaderboard }}" style="padding:6px;border-radius:8px;border:none;background:transparent;cursor:pointer;color:#aebdb6;display:flex;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+        </div>
+        <div style="padding:12px 20px;border-bottom:1px solid rgba(244,233,216,0.1);">
+          <label style="font-size:0.68rem;font-family:'DM Mono',monospace;color:#8ba098;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:5px;">Your name (saved for the leaderboard)</label>
+          <div style="display:flex;gap:8px;">
+            <input value="{{ playerName }}" onInput="{{ onNameChange }}" onKeyDown="{{ onNameKey }}" placeholder="Anonymous" style="flex:1;min-width:0;background:rgba(11,22,24,0.7);border:1px solid rgba(244,233,216,0.14);border-radius:9px;padding:8px 11px;font-size:0.85rem;color:#f3e9d8;font-family:inherit;outline:none;" />
+            <button onClick="{{ onNameSave }}" style="flex-shrink:0;background:{{ nameSavedBg }};color:#20140a;border:none;font-weight:700;font-family:'DM Mono',monospace;font-size:0.72rem;padding:0 16px;border-radius:9px;cursor:pointer;transition:background 0.2s;">{{ nameSaveLabel }}</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;padding:12px 20px 0;flex-wrap:wrap;">
+          <sc-for list="{{ lbTabs }}" as="tab" hint-placeholder-count="4"><button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.name }}</button></sc-for>
+        </div>
+        <p style="font-size:0.68rem;color:#8ba098;font-family:'DM Mono',monospace;padding:8px 20px 0;margin:0;">{{ lbNote }}</p>
+        <div style="flex:1;overflow-y:auto;padding:16px 20px;">
+          <sc-if value="{{ lbHasRows }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <sc-for list="{{ lbRows }}" as="r" hint-placeholder-count="3">
+                <div style="{{ r.style }}">
+                  <span style="font-family:'DM Mono',monospace;font-weight:500;font-size:0.8rem;color:#f4c988;width:28px;flex-shrink:0;">{{ r.rank }}</span>
+                  <span style="flex:1;font-size:0.88rem;color:#f3e9d8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span>
+                  <span style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#8ba098;flex-shrink:0;">{{ r.detail }}</span>
+                  <span style="font-family:'DM Mono',monospace;font-weight:500;font-size:0.85rem;color:#84e3d9;width:56px;text-align:right;flex-shrink:0;">{{ r.score }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ lbEmpty }}" hint-placeholder-val="{{ true }}">
+            <p style="text-align:center;color:#8ba098;font-size:0.85rem;padding:24px 0;">No scores yet for this level. Be the first — solve it without giving up!</p>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  LEVELS = [
+    { id:0, name:"Subatomic to Molecular", difficulty:"Pro", range:"10⁻³⁵ to 10⁻¹⁰ m", description:"The particle universe, too small to ever see.", cards:[
+      { id:"s1", name:"Length scale of strings (1D) in string theory", exponent:-35, coefficient:"1.62", metricConversion:"10⁻³⁵ m = Planck's length", image:"images/strings.jpg" },
+      { id:"s2", name:"Effective size of neutrinos, the tiniest known piece of matter", exponent:-24, coefficient:"2", metricConversion:"10⁻²⁴ m = 1 yoctometer (ym)", image:"images/neutrinos.jpg" },
+      { id:"s3", name:"Predicted size of preons, building blocks of quarks", exponent:-21, coefficient:"2", metricConversion:"10⁻²¹ m = 1 zeptometer (zm)", image:"images/preons.jpg" },
+      { id:"s4", name:"Effective size of quarks, building blocks of protons and neutrons", exponent:-18, coefficient:"2", metricConversion:"10⁻¹⁸ m = 1 attometer (am)", image:"images/quarks.jpg" },
+      { id:"s5", name:"Compton wavelength of a proton", exponent:-15, coefficient:"1.32", metricConversion:"10⁻¹⁵ m = 1 femtometer (fm)", image:"images/proton.jpg" },
+      { id:"s6", name:"Diameter of Uranium's nucleus (92 protons, 143 neutrons)", exponent:-14, coefficient:"1.5", metricConversion:"10⁻¹⁴ m = 100 picometer (pm)", image:"images/uranium.jpg" },
+      { id:"s7", name:"Compton wavelength of an electron", exponent:-12, coefficient:"2.4", metricConversion:"10⁻¹² m = 1 picometer (pm)", image:"images/electron.jpg" },
+      { id:"s8", name:"Bohr radius of hydrogen atom", exponent:-11, coefficient:"5.2", metricConversion:"10⁻¹¹ m = 10 picometers (pm)", image:"images/bohr.jpg" },
+      { id:"s9", name:"Radius of the largest known atom, cesium, our timekeeper", exponent:-10, coefficient:"2.98", metricConversion:"10⁻¹⁰ m = 1 Ångström (Å)", image:"images/cesium.jpg" }
+    ]},
+    { id:1, name:"Molecular to Human", difficulty:"Medium", range:"10⁻⁹ to 10⁻¹ m", description:"The hidden universe inside your body, from nano to centimetre.", cards:[
+      { id:"m1", name:"Diameter of the DNA helix, our genetic blueprint", exponent:-9, coefficient:"~2", metricConversion:"10⁻⁹ m = 1 nanometer (nm)", image:"images/dna.jpg" },
+      { id:"m2", name:"Diameter of a typical rhinovirus, a common virus in humans", exponent:-8, coefficient:"~3", metricConversion:"10⁻⁸ m = 10 nanometer (nm)", image:"images/rhinovirus.jpg" },
+      { id:"m3", name:"Diameter of a human skin cell (keratinocyte)", exponent:-7, coefficient:"~3", metricConversion:"10⁻⁷ m = 100 nanometer (nm)", image:"images/skincell.jpg" },
+      { id:"m4", name:"Disk diameter of a typical human red blood cell", exponent:-6, coefficient:"8.2", metricConversion:"10⁻⁶ m = 1 micrometer (µm)", image:"images/rbc.jpg" },
+      { id:"m5", name:"Minimum width of a strand of human hair", exponent:-5, coefficient:"1.7", metricConversion:"10⁻⁵ m = 10 micrometer (µm)", image:"images/hair.jpg" },
+      { id:"m6", name:"Typical diameter of a human ovum", exponent:-4, coefficient:"1.2", metricConversion:"10⁻⁴ m = 100 micrometer (µm)", image:"images/ovum.jpg" },
+      { id:"m7", name:"Typical length of the adult pineal gland", exponent:-3, coefficient:"~8", metricConversion:"10⁻³ m = 1 millimeter (mm)", image:"images/pineal.jpg" },
+      { id:"m8", name:"Typical diameter of the cornea of an adult eye", exponent:-2, coefficient:"1.15", metricConversion:"10⁻² m = 1 centimeter (cm)", image:"images/cornea.jpg" },
+      { id:"m9", name:"Typical length of an adult liver", exponent:-1, coefficient:"1.6", metricConversion:"10⁻¹ m = 10 centimeter (cm)", image:"images/liver.jpg" }
+    ]},
+    { id:2, name:"Human to Astronomical", difficulty:"Easy", range:"10⁰ to 10⁸ m", description:"The universe we've built by science and engineering.", cards:[
+      { id:"h1", name:"Floor to ceiling distance in an average residential home", exponent:0, coefficient:"~2.4", metricConversion:"10⁰ m = 1 meter (m)", image:"images/room.jpg" },
+      { id:"h2", name:"Length of Olympics sized swimming pool", exponent:1, coefficient:"5", metricConversion:"10¹ m = 10 meter (m)", image:"images/pool.jpg" },
+      { id:"h3", name:"Height of the Eiffel Tower (including antenna)", exponent:2, coefficient:"3.2", metricConversion:"10² m = 100 meter (m)", image:"images/eiffel.jpg" },
+      { id:"h4", name:"Length of Three Gorges Dam, the largest dam in the world", exponent:3, coefficient:"2.3", metricConversion:"10³ m = 1 kilometer (km)", image:"images/dam.jpg" },
+      { id:"h5", name:"Circumference of Large Hadron Collider, a particle accelerator", exponent:4, coefficient:"2.7", metricConversion:"10⁴ m = 10 kilometer (km)", image:"images/lhc.jpg" },
+      { id:"h6", name:"Max altitude of the International Space Station from Earth", exponent:5, coefficient:"4.35", metricConversion:"10⁵ m = 100 kilometer (km)", image:"images/iss.jpg" },
+      { id:"h7", name:"Length of the Great Wall of China", exponent:6, coefficient:"6.25", metricConversion:"10⁶ m = 1,000 km = 1 Megameter (Mm)", image:"images/greatwall.jpg" },
+      { id:"h8", name:"Length of longest submarine communications cable", exponent:7, coefficient:"~2", metricConversion:"10⁷ m = 10,000 km = 10 Mm", image:"images/cable.jpg" },
+      { id:"h9", name:"Farthest humans have travelled—to the far side of the moon", exponent:8, coefficient:"~4", metricConversion:"10⁸ m = 100,000 km = 100 Mm", image:"images/moon.jpg" }
+    ]},
+    { id:3, name:"Astronomical to Cosmological", difficulty:"Hard", range:"10⁹ to 10²⁶ m", description:"The cosmos — planets, stars, galaxies, rarely to scale.", cards:[
+      { id:"a1", name:"Diameter of the Sun, our home star", exponent:9, coefficient:"1.39", metricConversion:"10⁹ m = 1 million km = 1 Gigameter (Gm)", image:"images/sun.jpg" },
+      { id:"a2", name:"Distance from the Earth to the Sun", exponent:11, coefficient:"1.5", metricConversion:"10¹¹ × 1.5 m = 150 million km = 1 AU", image:"images/earthsun.jpg" },
+      { id:"a3", name:"Distance to Voyager 1, the farthest spacecraft from Earth", exponent:13, coefficient:"2.11", metricConversion:"10¹³ × 2.11 m = 21.1 trillion km = 141 AU", image:"images/voyager.jpg" },
+      { id:"a4", name:"Diameter of the Solar System's Oort Cloud", exponent:15, coefficient:"9.4", metricConversion:"10¹⁵ × 9.4 m = 1 light year (ly)", image:"images/oort.jpg" },
+      { id:"a5", name:"Distance to Betelguese, Orion's Red Supergiant", exponent:18, coefficient:"6.07", metricConversion:"10¹⁸ × 6.07 m = 645 light years (ly)", image:"images/betelgeuse.jpg" },
+      { id:"a6", name:"Diameter of the Milky Way galactic disk", exponent:20, coefficient:"9.5", metricConversion:"10²⁰ × 9.5 m = 100,000 light years (ly)", image:"images/milkyway.jpg" },
+      { id:"a7", name:"Diameter of our Local Group of galaxies (~54 galaxies)", exponent:22, coefficient:"5", metricConversion:"10²² × 5 m = 10 million light years (ly)", image:"images/localgroup.jpg" },
+      { id:"a8", name:"Diameter of Laniakea, our local supercluster (~100,000 galaxies)", exponent:24, coefficient:"5.9", metricConversion:"10²⁴ × 5.9 m = 520 million light years (ly)", image:"images/laniakea.jpg" },
+      { id:"a9", name:"Co-moving diameter of the observable universe", exponent:26, coefficient:"8.79", metricConversion:"10²⁶ × 8.79 m = 93 billion light years (ly)", image:"images/universe.jpg" }
+    ]}
+  ];
+
+  INSIGHTS = {
+    0: [
+      { ids:["s1"], text:"A string is to a proton roughly what a proton is to the Solar System — and it remains purely theoretical." },
+      { ids:["s2"], text:"Neutrinos are so tiny that trillions stream through your body every second without touching a single atom." },
+      { ids:["s3","s4"], text:"Preons, if they exist, would sit inside quarks: building blocks nested within building blocks." },
+      { ids:["s5","s6"], text:"A proton's Compton wavelength is wider than the uranium nucleus that binds 235 particles together." },
+      { ids:["s7","s8"], text:"The Bohr radius reveals an atom is ~100,000× wider than its nucleus — atoms are almost entirely empty space." },
+      { ids:["s9"], text:"Cesium, the largest atom, is our timekeeper: its vibrations define the length of one second." }
+    ],
+    1: [
+      { ids:["m1","m2"], text:"A rhinovirus is about 10× wider than the DNA helix it hijacks, yet millions still fit on a pinhead." },
+      { ids:["m3","m2"], text:"A single skin cell dwarfs the virus trying to infect it by roughly ten times." },
+      { ids:["m4"], text:"A red blood cell is about as wide as the smallest capillaries it must fold to squeeze through." },
+      { ids:["m5","m4"], text:"A human hair is ~10× thicker than a red blood cell — coarse rope by cellular standards." },
+      { ids:["m6","m7"], text:"The human ovum is the largest cell in the body and, at ~0.1 mm, is just visible to the naked eye." },
+      { ids:["m8","m9"], text:"From cornea to liver, a single organ can span a thousandfold in scale within one body." }
+    ],
+    2: [
+      { ids:["h2","h1"], text:"An Olympic pool is ~20× longer than a room is tall — scale climbs fast the moment you leave the body." },
+      { ids:["h3","h2"], text:"You'd stack about 13 Olympic pools end to end to match the Eiffel Tower's height." },
+      { ids:["h7","h3"], text:"The Great Wall of China is over 6,000× longer than the Eiffel Tower is tall." },
+      { ids:["h6","h5"], text:"The ISS orbits at ~400 km — a distance you could 'drive' in an afternoon if the road went straight up." },
+      { ids:["h8","h9"], text:"The longest submarine cable stretches farther than a twentieth of the way to the Moon." }
+    ],
+    3: [
+      { ids:["a1","a2"], text:"The Sun is ~109 Earths wide, yet just a speck against the gulf to the very next star." },
+      { ids:["a3","a4"], text:"Voyager 1 has travelled ~141× the Earth–Sun distance and still hasn't cleared the Oort Cloud." },
+      { ids:["a5"], text:"Light from Betelgeuse left ~645 years ago — you see it as it looked in the 1300s." },
+      { ids:["a6","a8"], text:"The Milky Way spans ~100,000 light-years; Laniakea, our supercluster, spans ~520 million." },
+      { ids:["a7","a9"], text:"The observable universe is ~93 billion light-years across — wider than its age in light-years, thanks to expansion." }
+    ]
+  };
+
+  CREDITS = [
+    { title:"Length scale of strings (1D) in string theory", credit:"String theory. Shutter Stock (24627319), Royalty Free" },
+    { title:"Effective size of neutrinos, the tiniest known piece of matter", credit:"The first observation of a neutrino-induced reaction in a hydrogen bubble chamber. U.S. Department of Energy, Public domain" },
+    { title:"Predicted size of preons, building blocks of quarks", credit:"Scalar potential of a point charge. Glenn Decker, Argonne National Lab, CC BY-A-SA 2.0" },
+    { title:"Effective size of quarks, building blocks of protons and neutrons", credit:"Standard model of particle physics. Cassiopeia Project, Free Educational Usage" },
+    { title:"Compton wavelength of a proton", credit:"Proton detected in an isopropanol cloud chamber, Nuledo, Wikimedia Commons, CC BY-A-SA 4.0" },
+    { title:"Diameter of Uranium's nucleus", credit:"Still from Nuclear Physics in 3D, N1ddhog, youtube.com" },
+    { title:"Compton wavelength of an electron", credit:"Electron waves of an electron trapped in a corral of iron atoms, Brad Caroll, Weber State University, Public domain" },
+    { title:"Bohr radius of hydrogen atom", credit:"Hydrogen atoms under magnification. Stodolna et al. (2013)" },
+    { title:"Radius of the largest known atom, cesium, our timekeeper", credit:"Sealed glass ampule, 99.98% Cesium. David Franco, Element Collection" },
+    { title:"Diameter of the DNA helix, our genetic blueprint", credit:"New DNA imaging method unveils Strands At Nanoscale, The Inquisitr" },
+    { title:"Diameter of a typical rhinovirus, a common virus in humans", credit:"Molecular surface of the capsid of human rhinovirus 16, Robin S, CC BY-SA 3.0" },
+    { title:"Diameter of a human skin cell (keratinocyte)", credit:"Skin cell (keratinocyte) Zeiss Microscopy, CC BY-NC-ND 2.0" },
+    { title:"Disk diameter of a typical human red blood cell", credit:"Etheresia Pretorius, Albe C. Swanepoel, University of Pretoria, Ash Image Bank" },
+    { title:"Minimum width of a strand of human hair", credit:"Ale Hidalgo, CC0 Public Domain" },
+    { title:"Typical diameter of a human ovum", credit:"Human ovum, IVF, light micrograph, Spike Walker, Wellcome Images, CC-BY-CC-ND 2.0 UK" },
+    { title:"Typical length of the adult pineal gland", credit:"Pineal gland, thesleuthjournal.com" },
+    { title:"Typical diameter of the cornea of an adult eye", credit:"pxsphere.com, CC0 Public Domain" },
+    { title:"Typical length of an adult liver", credit:"Human Liver, dliver.com" },
+    { title:"Floor to celling distance in an average residential home", credit:"Floor to ceiling, pxhere, CC0 Public Domain" },
+    { title:"Length of Olympics sized swimming pool", credit:"Swimming Pool, Wikimedia Commons, CC-A 2.0" },
+    { title:"Height of the Eiffel Tower (including antenna)", credit:"Tour Eiffel, Benh LIEU SONG, CC BY-SA 3.0" },
+    { title:"Length of Three Gorges Dam, the largest dam in the world", credit:"Three Gorges Dam, Wikimedia Commons, CC-A 2.0" },
+    { title:"Circumference of Large Hadron Collider, a particle accelerator", credit:"CERN Ariel View, Wikimedia Commons, CC-A 2.0" },
+    { title:"Max altitude of the International Space Station from Earth", credit:"STS-116 Spacewalk, Wikimedia Commons, CC-A 2.0" },
+    { title:"Length of the Great Wall of China", credit:"The Great Wall of China from 1907, Herbert Ponting, Public Domain" },
+    { title:"Length of longest submarine communications cable", credit:"SEA-ME-WE 3, submarinecablemap.com" },
+    { title:"Farthest humans have travelled—to the far side of the moon", credit:"Photograph of the dark side of the moon by the crew of Apollo 13. NASA, Public Domain" },
+    { title:"Diameter of the Sun, our home star", credit:"Solar Dynamics Observatory, NASA, Wikimedia Commons, CC-A 2.0" },
+    { title:"Distance from the Earth to the Sun", credit:"Sun, Moon & Earth, Kevin M Gill, CC BY 2.0" },
+    { title:"Distance to Voyager 1, the farthest spacecraft from Earth", credit:"IBEX Heliosphere, Wikimedia Commons, CC-A 2.0" },
+    { title:"Diameter of the Solar System's Oort Cloud", credit:"L.Calçada, ESO (used with permission)" },
+    { title:"Distance to Betelguese, Orion's Red Supergiant", credit:"Orion, Wikimedia Commons, CC-A 2.0" },
+    { title:"Diameter of the Milky Way galactic disk", credit:"Milky Way, NASA, Public Domain" },
+    { title:"Diameter of our Local Group of galaxies (~54 galaxies)", credit:"The Local Group and Nearby Galaxies, Wikimedia Commons, CC-A 2.0" },
+    { title:"Diameter of Laniakea, our local supercluster (~100,000 galaxies)", credit:"Laniakea, Wikimedia Commons, CC-A 2.0" },
+    { title:"Co-moving diameter of the observable universe", credit:"The Universe within 14 billion Light Years, Wikimedia Commons, CC-A 2.0" }
+  ];
+
+  LB_ENDPOINT = "https://powers-of-ten-leaderboard.jayajohnyramchandani.workers.dev";
+
+  state = {
+    lbData:{}, lbLoading:false,
+    screen:"select", levelId:null, cards:[], correctIds:[], shakingIds:[],
+    allFlipped:false, attempts:0, completedLevels:[], elapsed:0, finalTime:0,
+    mistakeCount:0, gaveUp:false, dragIndex:null,
+    selectedIndex:null, hintDirs:{}, stars:{}, daily:false, showCoach:false, shareMsg:"",
+    showLeaderboard:false, lbLevelId:0, playerName:"",
+    rankInfo:null, wrongIds:[]
+  };
+
+  componentDidMount(){
+    this.dragIndexRef = { current:null };
+    this.cardsRef = { current:[] };
+    this.setState({ completedLevels:this.loadJSON("pot_completed",[]), playerName:this.loadStr("pot_name",""), stars:this.loadJSON("pot_stars",{}) });
+  }
+  componentWillUnmount(){ clearInterval(this.timer); }
+
+  vibrate(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(x){} }
+  mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+  seededShuffle(arr,seed){ const a=[...arr]; const rnd=this.mulberry32(seed); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+  computeStars(att,gaveUp){ if(gaveUp) return 0; if(att<=1) return 3; if(att<=2) return 2; return 1; }
+  markStars(id,n){ const s=this.loadJSON("pot_stars",{}); if((s[id]||0)<n){ s[id]=n; try{localStorage.setItem("pot_stars",JSON.stringify(s));}catch(x){} this.setState({stars:s}); } }
+
+  loadJSON(k,f){ try{ return JSON.parse(localStorage.getItem(k)) || f; }catch(e){ return f; } }
+  loadStr(k,f){ try{ return localStorage.getItem(k) || f; }catch(e){ return f; } }
+  loadScores(){ return this.loadJSON("pot_scores",[]); }
+
+  formatTime(s){ const m=Math.floor(s/60), r=s%60; return m>0?(m+":"+String(r).padStart(2,"0")):(r+"s"); }
+  computeScore(att,time){ return Math.max(0, Math.round(1000 - att*200 - time*0.5)); }
+  shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+  startLevel(id,opts){
+    opts=opts||{};
+    const level=this.LEVELS[id];
+    const cards=(opts.seed!=null)?this.seededShuffle(level.cards,opts.seed):this.shuffle(level.cards);
+    this.cardsRef.current=cards;
+    clearInterval(this.timer);
+    this.timer=setInterval(()=>this.setState(s=>({elapsed:s.elapsed+1})),1000);
+    const showCoach=!this.loadStr("pot_coach","");
+    this.setState({ screen:"play", levelId:id, cards, correctIds:[], shakingIds:[], allFlipped:false, attempts:0, elapsed:0, finalTime:0, mistakeCount:0, gaveUp:false, dragIndex:null, selectedIndex:null, hintDirs:{}, rankInfo:null, wrongIds:[], daily:!!opts.daily, showCoach });
+  }
+  dismissCoach(){ try{ localStorage.setItem("pot_coach","1"); }catch(x){} this.setState({showCoach:false}); }
+  onCardTap(i){
+    if(this.state.allFlipped) return;
+    const sel=this.state.selectedIndex;
+    if(sel===null){ this.setState({selectedIndex:i}); return; }
+    if(sel===i){ this.setState({selectedIndex:null}); return; }
+    const a=[...this.cardsRef.current]; [a[sel],a[i]]=[a[i],a[sel]];
+    this.cardsRef.current=a;
+    this.vibrate(12);
+    this.setState({ cards:a, selectedIndex:null, correctIds:[], hintDirs:{} });
+  }
+
+  reorder(from,to){
+    const a=[...this.cardsRef.current]; const [m]=a.splice(from,1); a.splice(to,0,m);
+    this.cardsRef.current=a; this.setState({cards:a});
+  }
+  handleDragStart(e,i){ if(this.state.allFlipped){ e.preventDefault(); return; } this.dragIndexRef.current=i; this.setState({dragIndex:i});
+    const g=document.createElement("div"); g.style.cssText="width:1px;height:1px;opacity:0;position:fixed;top:-1px;left:-1px"; document.body.appendChild(g);
+    try{ e.dataTransfer.effectAllowed="move"; e.dataTransfer.setDragImage(g,0,0); }catch(x){} setTimeout(()=>{ try{document.body.removeChild(g);}catch(x){} },0);
+  }
+  handleDragOver(e,i){ e.preventDefault(); if(e.dataTransfer) e.dataTransfer.dropEffect="move"; const from=this.dragIndexRef.current; if(from===null||from===i) return; this.reorder(from,i); this.dragIndexRef.current=i; this.setState({dragIndex:i}); }
+  handleDragEnd(){ this.dragIndexRef.current=null; this.setState({dragIndex:null, correctIds:[]}); }
+
+  saveScore(entry){
+    const s=this.loadScores(); s.push(entry); try{ localStorage.setItem("pot_scores",JSON.stringify(s)); }catch(x){}
+    if(this.LB_ENDPOINT && !entry.gaveUp){
+      fetch(this.LB_ENDPOINT,{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(entry) })
+        .then(()=>this.fetchLeaderboard(entry.levelId)).catch(()=>{});
+    }
+  }
+  fetchLeaderboard(levelId){
+    if(!this.LB_ENDPOINT) return;
+    this.setState({lbLoading:true});
+    fetch(this.LB_ENDPOINT+"?level="+levelId).then(r=>r.json()).then(arr=>{
+      this.setState(s=>({ lbData:{...s.lbData,[levelId]:Array.isArray(arr)?arr:[]}, lbLoading:false }));
+    }).catch(()=>this.setState({lbLoading:false}));
+  }
+  markCompleted(id){ const c=this.state.completedLevels.includes(id)?this.state.completedLevels:[...this.state.completedLevels,id]; try{ localStorage.setItem("pot_completed",JSON.stringify(c)); }catch(x){} this.setState({completedLevels:c}); }
+
+  handleReady(){
+    const level=this.LEVELS[this.state.levelId];
+    const sorted=[...level.cards].sort((a,b)=>a.exponent-b.exponent);
+    const correct=[], shaking=[]; const hintDirs={};
+    this.state.cards.forEach((card,i)=>{
+      if(card.id===sorted[i].id) correct.push(card.id);
+      else { shaking.push(card.id); const ci=sorted.findIndex(s=>s.id===card.id); hintDirs[card.id]= ci<i ? "earlier" : "later"; }
+    });
+    const attempts=this.state.attempts+1;
+    const newMistakes=this.state.cards.filter(c=>shaking.includes(c.id)).length;
+    const complete=correct.length===level.cards.length;
+    this.setState({ attempts, correctIds:correct, shakingIds:shaking, selectedIndex:null, mistakeCount:Math.max(this.state.mistakeCount,newMistakes), wrongIds:Array.from(new Set([...this.state.wrongIds, ...shaking])), hintDirs: complete?{}:hintDirs });
+    setTimeout(()=>this.setState({shakingIds:[]}),600);
+    if(complete){
+      this.vibrate([10,30,10,30,60]);
+      clearInterval(this.timer);
+      const time=this.state.elapsed;
+      const score=this.computeScore(attempts,time);
+      const name=(this.state.playerName||"").trim()||"Anonymous";
+      this.saveScore({ levelId:this.state.levelId, levelName:level.name, playerName:name, attempts, time, score, gaveUp:false, date:Date.now() });
+      this.markCompleted(this.state.levelId);
+      this.markStars(this.state.levelId, this.computeStars(attempts,false));
+      this.setState({ allFlipped:true, finalTime:time, correctIds:sorted.map(c=>c.id), rankInfo:this.computeRank(this.state.levelId,score) });
+    } else {
+      this.vibrate([15,45,15]);
+    }
+  }
+  onShare(){
+    const st=this.state; const lv=this.LEVELS[st.levelId]; if(!lv) return;
+    const s=this.computeStars(st.attempts,st.gaveUp);
+    const body = st.gaveUp
+      ? ("I explored \""+lv.name+"\" in Powers of Ten — think you can order the universe?")
+      : ("I ordered \""+lv.name+"\" in Powers of Ten in "+this.formatTime(st.finalTime)+" · "+st.attempts+" "+(st.attempts===1?"try":"tries")+" "+("★".repeat(s)+"☆".repeat(3-s))+" — can you beat me?");
+    let url=""; try{ url=location.href; }catch(x){}
+    const txt=body+(url?(" "+url):"");
+    if(navigator.share){ navigator.share({title:"Powers of Ten", text:txt}).catch(()=>{}); }
+    else { try{ navigator.clipboard.writeText(txt); this.setState({shareMsg:"Copied to clipboard!"}); setTimeout(()=>this.setState({shareMsg:""}),2200); }catch(x){} }
+  }
+  computeRank(levelId,score){
+    const scores=this.loadScores().filter(s=>s.levelId===levelId && !s.gaveUp).map(s=>s.score);
+    const total=scores.length; if(total===0) return {rank:1,total:1,topPct:1,score};
+    const worse=scores.filter(v=>v<score).length; const rank=total-worse; const topPct=Math.max(1,Math.round(rank/total*100));
+    return { rank, total, topPct, score };
+  }
+  handleGiveUp(){
+    const level=this.LEVELS[this.state.levelId];
+    const sorted=[...level.cards].sort((a,b)=>a.exponent-b.exponent);
+    const wrongAtGiveup=this.state.cards.filter((c,i)=>c.id!==sorted[i].id).map(c=>c.id);
+    let work=[...this.state.cards]; const swaps=[];
+    for(let i=0;i<sorted.length;i++){ const t=sorted[i].id; const ci=work.findIndex(c=>c.id===t); if(ci!==i){ [work[i],work[ci]]=[work[ci],work[i]]; swaps.push(work.map(c=>c.id)); } }
+    swaps.forEach((snap,step)=>{ setTimeout(()=>{ this.setState(s=>{ const byId=Object.fromEntries(s.cards.map(c=>[c.id,c])); const nc=snap.map(id=>byId[id]); this.cardsRef.current=nc; return {cards:nc}; }); }, step*700); });
+    setTimeout(()=>{
+      clearInterval(this.timer);
+      const name=(this.state.playerName||"").trim()||"Anonymous";
+      this.saveScore({ levelId:this.state.levelId, levelName:level.name, playerName:name, attempts:this.state.attempts, time:this.state.elapsed, score:0, gaveUp:true, date:Date.now() });
+      this.markCompleted(this.state.levelId);
+      this.setState({ allFlipped:true, gaveUp:true, finalTime:this.state.elapsed, correctIds:sorted.map(c=>c.id), rankInfo:null, wrongIds:wrongAtGiveup });
+    }, swaps.length*700+800);
+  }
+
+  nextLevel(){ const order=["Easy","Medium","Hard","Pro"]; const cur=this.LEVELS[this.state.levelId].difficulty; const nd=order[order.indexOf(cur)+1]; return this.LEVELS.find(l=>l.difficulty===nd)||null; }
+
+  supNum(n){ const m={"-":"⁻","0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"}; return String(n).split("").map(c=>m[c]||c).join(""); }
+  factor(d){ d=Math.abs(d); const w={1:"about 10× ",2:"about 100× ",3:"about 1,000× ",4:"about 10,000× "}; return w[d]||("about 10"+this.supNum(d)+"× "); }
+  shortName(n){
+    let s=n.replace(/^(Length scale of|Effective size of|Predicted size of|Compton wavelength of|Disk diameter of|Diameter of|Distance from|Distance to|Radius of|Height of|Max altitude of|Minimum width of|Circumference of|Floor to ceiling distance in|Length of|Co-moving diameter of|Typical diameter of|Typical length of|Farthest humans have travelled—to)\s+/i,"");
+    s=s.replace(/^(the|a|an)\s+/i,"");
+    s=s.split(",")[0].split(" (")[0].trim();
+    return s;
+  }
+  buildInsights(level, wrongIds){
+    const sorted=[...level.cards].sort((a,b)=>a.exponent-b.exponent);
+    const idx={}; sorted.forEach((c,i)=>idx[c.id]=i);
+    const wrong=[...new Set(wrongIds||[])].filter(id=>idx[id]!==undefined);
+    if(wrong.length===0){
+      return { title:"Perfect run", items:[{ num:"★", text:"Flawless — you placed every card in the right order first time, reading each jump in scale exactly right." }] };
+    }
+    const sortedWrong=wrong.sort((a,b)=>idx[a]-idx[b]).slice(0,6);
+    const items=sortedWrong.map((id,n)=>{
+      const k=idx[id]; const card=sorted[k]; const below=sorted[k-1]; const above=sorted[k+1];
+      const conv=card.metricConversion.split("=")[0].trim();
+      const parts=[];
+      if(below){ const d=card.exponent-below.exponent; parts.push(d===0 ? ("about the same length as the "+this.shortName(below.name)) : (this.factor(d)+"larger than the "+this.shortName(below.name))); }
+      if(above){ const d=above.exponent-card.exponent; parts.push(d===0 ? ("the same as the "+this.shortName(above.name)) : (this.factor(d)+"smaller than the "+this.shortName(above.name))); }
+      const rel = parts.length===2 ? (parts[0]+", and "+parts[1]) : (parts[0]||"the extreme edge of this scale");
+      const cap=this.shortName(card.name); const Cap=cap.charAt(0).toUpperCase()+cap.slice(1);
+      return { num:String(n+1).padStart(2,"0"), text: Cap+" ("+conv+") is "+rel+"." };
+    });
+    return { title:"Where scale surprised you", items };
+  }
+
+  diffStyle(diff){
+    const map={ Easy:["#5fd0c5","#06201d"], Medium:["#f0b060","#241606"], Hard:["#e0913c","#241606"], Pro:["#c4b6f7","#160f2e"] };
+    const [bg,color]=map[diff]||map.Easy;
+    return "display:inline-flex;align-items:center;font-family:'DM Mono',monospace;font-weight:700;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 11px;border-radius:9999px;background:"+bg+";color:"+color+";white-space:nowrap;";
+  }
+  icon(id){
+    const svg=(children)=>React.createElement("svg",{width:24,height:24,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"},children);
+    if(id===0) return svg([ React.createElement("circle",{key:"c",cx:12,cy:12,r:1}), React.createElement("path",{key:"a",d:"M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"}), React.createElement("path",{key:"b",d:"M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"}) ]);
+    if(id===1) return svg([ React.createElement("path",{key:"1",d:"M7 4c0 6 10 8 10 14"}), React.createElement("path",{key:"2",d:"M17 4c0 6-10 8-10 14"}), React.createElement("path",{key:"3",d:"M8 7h8"}), React.createElement("path",{key:"4",d:"M8 17h8"}), React.createElement("path",{key:"5",d:"M9.5 10.5h5"}), React.createElement("path",{key:"6",d:"M9.5 13.5h5"}) ]);
+    if(id===2) return svg([ React.createElement("circle",{key:"c",cx:12,cy:12,r:10}), React.createElement("path",{key:"e",d:"M2 12h20"}), React.createElement("path",{key:"m",d:"M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20"}) ]);
+    return svg([ React.createElement("polygon",{key:"s",points:"12 2 15 9 22 9 16.5 13.5 18.5 21 12 16.5 5.5 21 7.5 13.5 2 9 9 9 12 2"}) ]);
+  }
+
+  renderVals(){
+    const st=this.state;
+    const screen=st.screen;
+    const onImgError=(e)=>{ e.currentTarget.style.display="none"; };
+
+    const colors={
+      0:{ border:"rgba(182,164,245,0.32)", accent:"#c4b6f7" },
+      1:{ border:"rgba(95,208,197,0.32)", accent:"#84e3d9" },
+      2:{ border:"rgba(240,176,96,0.32)", accent:"#f4c988" },
+      3:{ border:"rgba(233,141,141,0.32)", accent:"#eea3a3" }
+    };
+    const order={Easy:0,Medium:1,Hard:2,Pro:3};
+    const levels=[...this.LEVELS].sort((a,b)=>order[a.difficulty]-order[b.difficulty]).map(lv=>{
+      const c=colors[lv.id];
+      return {
+        name:lv.name, difficulty:lv.difficulty, range:lv.range, description:lv.description,
+        iconEl:this.icon(lv.id), iconColor:c.accent, rangeColor:c.accent,
+        completed:st.completedLevels.includes(lv.id),
+        starsStr: ("\u2605".repeat(st.stars[lv.id]||0)+"\u2606".repeat(3-(st.stars[lv.id]||0))), hasStars:(st.stars[lv.id]||0)>0,
+        onSelect:()=>this.startLevel(lv.id),
+        playLabel: st.completedLevels.includes(lv.id) ? "REPLAY" : "PLAY",
+        cardStyle:{ position:"relative", textAlign:"left", padding:"22px", borderRadius:"18px", border:"1px solid "+c.border, background:"linear-gradient(160deg,rgba(22,41,43,0.75),rgba(13,30,31,0.75))", backdropFilter:"blur(8px)", cursor:"pointer", transition:"all 0.25s", width:"100%", fontFamily:"inherit", boxShadow:"0 12px 34px rgba(0,0,0,0.3)" },
+        badgeStyle:this.diffStyle(lv.difficulty)
+      };
+    });
+    const stars=Array.from({length:7},(_,i)=>({ style:"width:4px;height:4px;border-radius:9999px;background:#f0b060;animation:starPulse 2s ease-in-out infinite;animation-delay:"+(i*0.3)+"s;" }));
+
+    const level=st.levelId!=null?this.LEVELS[st.levelId]:null;
+    const totalCards=level?level.cards.length:9;
+    const cardViews=st.cards.map((card,i)=>{
+      const flipped=st.allFlipped;
+      const correct=st.correctIds.includes(card.id);
+      const shaking=st.shakingIds.includes(card.id);
+      const dragging=st.dragIndex===i;
+      const selected=st.selectedIndex===i;
+      const hint=st.hintDirs[card.id];
+      let border="1px solid rgba(244,233,216,0.14)"; let shadow="0 8px 20px rgba(0,0,0,0.5)";
+      if(flipped){ border="1px solid rgba(240,176,96,0.5)"; shadow="0 0 22px rgba(95,208,197,0.35),0 8px 20px rgba(0,0,0,0.5)"; }
+      else if(correct){ border="1px solid rgba(95,208,197,0.7)"; shadow="0 0 20px rgba(95,208,197,0.5),0 8px 20px rgba(0,0,0,0.5)"; }
+      else if(selected){ border="2px solid #f0b060"; shadow="0 0 0 3px rgba(240,176,96,0.35),0 8px 20px rgba(0,0,0,0.5)"; }
+      return {
+        index:i, id:card.id, name:card.name, exponent:card.exponent, coefficient:card.coefficient, metricConversion:card.metricConversion, image:card.image,
+        flipped, front:!flipped,
+        showHint: !!hint, hintChar: hint==="earlier"?"\u2190":"\u2192", hintLabel: hint==="earlier"?"smaller":"larger",
+        wrapperStyle:{ userSelect:"none", cursor:st.allFlipped?"default":"pointer", touchAction:"manipulation", transition:"all 0.2s", opacity:dragging?0.4:1, transform:dragging?"scale(0.95)":(selected?"translateY(-5px)":"none"), animation:shaking?"shake 0.5s cubic-bezier(.36,.07,.19,.97) both":"none" },
+        cardStyle:{ position:"relative", width:"100%", aspectRatio:"2 / 3", borderRadius:"16px", overflow:"hidden", border, boxShadow:shadow, transition:"border 0.25s,box-shadow 0.25s,transform 0.2s" },
+        onClick:()=>this.onCardTap(i),
+        onDragStart:(e)=>this.handleDragStart(e,i), onDragOver:(e)=>this.handleDragOver(e,i), onDragEnd:()=>this.handleDragEnd()
+      };
+    });
+
+    const MIN=-35, MAX=26, SPAN=MAX-MIN;
+    const pct=(e)=>((e-MIN)/SPAN)*100;
+    const rulerTicks=Array.from({length:SPAN+1},(_,i)=>MIN+i).map(e=>({ style:"position:absolute;top:50%;transform:translateX(-50%);width:1px;background:rgba(244,233,216,0.28);left:"+pct(e)+"%;height:"+(e%5===0?"10px":"5px")+";margin-top:"+(e%5===0?"-5px":"-2.5px")+";" }));
+    const bandCols=[ ["rgba(182,164,245,0.3)","rgba(182,164,245,0.75)","#c4b6f7"], ["rgba(95,208,197,0.3)","rgba(95,208,197,0.75)","#84e3d9"], ["rgba(240,176,96,0.3)","rgba(240,176,96,0.75)","#f4c988"], ["rgba(233,141,141,0.3)","rgba(233,141,141,0.75)","#eea3a3"] ];
+    const ranges=this.LEVELS.map(l=>({ id:l.id, name:l.name, min:Math.min(...l.cards.map(c=>c.exponent)), max:Math.max(...l.cards.map(c=>c.exponent)) }));
+    const rulerBands=ranges.map((r)=>{
+      const col=bandCols[r.id]; const active=r.id===st.levelId; const left=pct(r.min); const width=pct(r.max)-pct(r.min); const mid=(pct(r.min)+pct(r.max))/2;
+      return {
+        title:"Jump to "+r.name, short:r.name.split(" ")[0],
+        onJump:()=> (!active ? this.startLevel(r.id) : null),
+        style:"position:absolute;top:50%;transform:translateY(-50%);border-radius:9999px;border:1px solid "+col[1]+";background:"+col[0]+";cursor:"+(active?"default":"pointer")+";transition:all 0.4s;left:"+left+"%;width:"+width+"%;height:"+(active?"12px":"8px")+";opacity:"+(active?1:0.55)+";",
+        labelStyle:"position:absolute;transform:translateX(-50%);font-size:9px;font-family:'DM Mono',monospace;left:"+mid+"%;cursor:pointer;background:none;border:none;font-weight:"+(active?"600":"400")+";color:"+(active?col[2]:"#8ba098")+";opacity:"+(active?1:0.75)+";"
+      };
+    });
+    const avgExp=st.cards.length?st.cards.reduce((s,c)=>s+c.exponent,0)/st.cards.length:(level?level.cards[0].exponent:0);
+    const markerLeft=pct(avgExp)+"%";
+
+    const next=level?this.nextLevel():null;
+    const insightData = level ? this.buildInsights(level, st.wrongIds) : { title:"Insights", items:[] };
+    const insights = insightData.items;
+    const insightsTitle = insightData.title;
+    let rankLabel=""; if(st.rankInfo){ rankLabel = st.rankInfo.total>1 ? ("#"+st.rankInfo.rank+" of "+st.rankInfo.total+" · "+st.rankInfo.score+" pts") : (st.rankInfo.score+" pts"); }
+
+    const lbTabs=this.LEVELS.map(l=>{
+      const active=l.id===st.lbLevelId;
+      return { name:l.name.split(" ")[0], onClick:()=>{ this.setState({lbLevelId:l.id}); this.fetchLeaderboard(l.id); },
+        style:"font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;padding:6px 12px;border-radius:9999px;cursor:pointer;border:1px solid "+(active?"#f0b060":"rgba(244,233,216,0.14)")+";background:"+(active?"rgba(240,176,96,0.16)":"transparent")+";color:"+(active?"#f4c988":"#aebdb6")+";" };
+    });
+    const remoteLb=!!this.LB_ENDPOINT;
+    const srcRows = remoteLb ? (st.lbData[st.lbLevelId]||[]) : this.loadScores().filter(s=>s.levelId===st.lbLevelId && !s.gaveUp);
+    const rows=[...srcRows].sort((a,b)=>b.score-a.score).slice(0,10);
+    const lbRows=rows.map((r,i)=>({
+      rank:"#"+(i+1), name:r.playerName||"Anonymous", detail:r.attempts+" try · "+this.formatTime(r.time), score:r.score+" pts",
+      style:"display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;background:"+(i===0?"rgba(240,176,96,0.14)":"rgba(244,233,216,0.05)")+";"
+    }));
+
+    return {
+      isSelect:screen==="select", isPlay:screen==="play", isComplete:screen==="complete", isAbout:screen==="about",
+      levels, stars,
+      onAbout:()=>this.setState({screen:"about"}),
+      onHome:()=>{ clearInterval(this.timer); this.setState({screen:"select"}); },
+      onOpenLeaderboard:()=>{ const id=(st.levelId!=null?st.levelId:0); this.setState({showLeaderboard:true, lbLevelId:id}); this.fetchLeaderboard(id); },
+
+      playLevel: level||{name:"",range:"",difficulty:"Easy"},
+      playDiffBadge: this.diffStyle(level?level.difficulty:"Easy"),
+      elapsedFmt: this.formatTime(st.elapsed),
+      hasAttempts: st.attempts>0, attempts:st.attempts, correctCount:st.correctIds.length, totalCards,
+      cardViews, onImgError,
+      onBack:()=>{ clearInterval(this.timer); this.setState({screen:"select"}); },
+      onReady:()=>this.handleReady(), onGiveUp:()=>this.handleGiveUp(),
+      allFlipped:st.allFlipped, notFlipped:!st.allFlipped, isDaily:st.daily,
+      showCoach:st.showCoach, onDismissCoach:()=>this.dismissCoach(), stopProp:(e)=>e.stopPropagation(),
+      progressStyle:"height:100%;border-radius:9999px;background:linear-gradient(90deg,#f0b060,#5fd0c5);transition:width 0.4s ease;width:"+(totalCards?Math.round(st.correctIds.length/totalCards*100):0)+"%;",
+      bannerStyle:"margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:16px;padding:16px 20px;border:1px solid "+(st.gaveUp?"rgba(224,140,80,0.35)":"rgba(240,176,96,0.35)")+";background:"+(st.gaveUp?"rgba(224,140,80,0.1)":"rgba(240,176,96,0.1)")+";",
+      bannerTitle: st.gaveUp?"✨ The true order, revealed":"🎉 You ordered the universe!",
+      onViewSummary:()=>this.setState({screen:"complete"}),
+      rulerTicks, rulerBands, markerLeft,
+
+      completeBadge:"display:inline-flex;align-items:center;gap:8px;border-radius:9999px;padding:8px 16px;margin-bottom:16px;border:1px solid "+(st.gaveUp?"rgba(224,140,80,0.3)":"rgba(240,176,96,0.3)")+";background:"+(st.gaveUp?"rgba(224,140,80,0.12)":"rgba(240,176,96,0.12)")+";color:"+(st.gaveUp?"#f0a877":"#f4c988")+";",
+      completeLabel: st.gaveUp?"REVEALED":"LEVEL COMPLETE",
+      attemptWord: st.attempts===1?"attempt":"attempts",
+      showTime: st.finalTime>0, finalTimeFmt:this.formatTime(st.finalTime),
+      showRank: !!st.rankInfo, rankLabel,
+      onShare:()=>this.onShare(), shareMsg:st.shareMsg, hasShareMsg:!!st.shareMsg,
+      shareLabel: st.shareMsg || "Share result",
+      completeStarsStr: ("\u2605".repeat(this.computeStars(st.attempts,st.gaveUp))+"\u2606".repeat(3-this.computeStars(st.attempts,st.gaveUp))),
+      insights, insightsTitle,
+      showScaleLine: !st.gaveUp && !!level, scaleLine: level?("You just crossed the scale from "+level.cards[0].metricConversion.split("=")[0].trim()+" to "+level.cards[level.cards.length-1].metricConversion.split("=")[0].trim()+"."):"",
+      hasNext: !!next, nextLabel: next?((st.gaveUp?"Move on: ":"Next: ")+next.name):"", nextDiff: next?next.difficulty:"", nextBadge: next?this.diffStyle(next.difficulty):"",
+      onNext:()=>{ if(next) this.startLevel(next.id); }, onReplay:()=>this.startLevel(st.levelId),
+
+      credits:this.CREDITS.map((c,i)=>({ title:c.title, credit:c.credit, style:"padding:12px 16px;"+(i>0?"border-top:1px solid rgba(244,233,216,0.08);":"") })),
+
+      showLeaderboard:st.showLeaderboard, onCloseLeaderboard:()=>this.setState({showLeaderboard:false}),
+      playerName:st.playerName,
+      onNameChange:(e)=>{ const v=e.target.value; try{localStorage.setItem("pot_name",v);}catch(x){} this.setState({playerName:v, nameSaved:false}); },
+      onNameSave:()=>{ try{localStorage.setItem("pot_name",(this.state.playerName||"").trim());}catch(x){} this.setState({nameSaved:true}); setTimeout(()=>this.setState({nameSaved:false}),1600); },
+      onNameKey:(e)=>{ if(e.key==="Enter"){ e.preventDefault(); try{localStorage.setItem("pot_name",(this.state.playerName||"").trim());}catch(x){} this.setState({nameSaved:true}); setTimeout(()=>this.setState({nameSaved:false}),1600); } },
+      nameSaveLabel: st.nameSaved?"Saved ✓":"Save",
+      nameSavedBg: st.nameSaved?"#5fd0c5":"#f0b060",
+      lbTabs, lbRows, lbHasRows:lbRows.length>0, lbEmpty:lbRows.length===0 && !st.lbLoading,
+      lbNote: remoteLb ? (st.lbLoading ? "Syncing shared scores…" : "🌍 Shared leaderboard — everyone sees the same list") : "On this device only — set up sync to share (see the Cloudflare folder)"
+    };
+  }
+}
+</script>
+</body>
+</html>
